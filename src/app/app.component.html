@@ -1,0 +1,172 @@
+<header class="side navbar navbar-dark navbar-expand-lg">
+  <div class="container-fluid side-inner">
+    <a class="side-id" href="#summary" (click)="closeMenu()">
+      <img class="side-photo" src="photo.jpg" [alt]="'Portrait of ' + profile.name" width="170" height="170">
+      <span class="side-text">
+        <span class="side-name">{{ profile.name }}</span>
+        <span class="side-role">{{ profile.title }}</span>
+      </span>
+    </a>
+
+    <button class="navbar-toggler" type="button" aria-label="Toggle navigation"
+            [attr.aria-expanded]="menuOpen()" (click)="toggleMenu()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="menuOpen()">
+      <nav class="side-nav" aria-label="Main">
+        @for (l of links; track l.id) {
+          <a class="nav-link" [href]="'#' + l.id" [class.active]="active() === l.id" (click)="closeMenu()">{{ l.label }}</a>
+        }
+      </nav>
+      <a class="side-mail" [href]="'mailto:' + profile.email">{{ profile.email }}</a>
+    </div>
+  </div>
+</header>
+
+<div class="content">
+  <main class="container-xl px-3 px-md-4 px-xl-5">
+    <section class="hero">
+      <p class="eyebrow">{{ profile.title }}</p>
+      <h1>{{ profile.tagline }}</h1>
+      <p class="lead text-body-secondary">
+        I build and maintain enterprise web applications and automate their testing.
+      </p>
+      <div class="d-flex flex-wrap gap-2 my-4" aria-label="Main technologies">
+        @for (t of heroTech; track t) {
+          <span class="badge rounded-pill chip">{{ t }}</span>
+        }
+      </div>
+      <div class="row g-3">
+        @for (s of stats; track s.label) {
+          <div class="col-12 col-sm-4">
+            <div class="card stat h-100">
+              <div class="card-body">
+                <div class="stat-value">{{ s.value }}</div>
+                <div class="text-body-secondary small">{{ s.label }}</div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section id="summary" class="block">
+      <h2>Profile summary</h2>
+      <p class="prose">{{ summary }}</p>
+    </section>
+
+    <section id="skills" class="block">
+      <h2>Key skills</h2>
+      <div class="row g-3">
+        @for (g of skillGroups; track g.title) {
+          <div class="col-md-6 col-xxl-4">
+            <div class="card h-100 skill">
+              <div class="card-body">
+                <h3><i class="bi me-2" [class]="g.icon"></i>{{ g.title }}</h3>
+                @if (g.plain) {
+                  <ul class="mb-0 ps-3">
+                    @for (i of g.items; track i) { <li>{{ i }}</li> }
+                  </ul>
+                } @else {
+                  <div class="d-flex flex-wrap gap-2">
+                    @for (i of g.items; track i) { <span class="badge rounded-pill chip">{{ i }}</span> }
+                    @for (i of g.learning ?? []; track i) {
+                      <span class="badge rounded-pill chip learning">{{ i }} (learning)</span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section id="experience" class="block">
+      <h2>Work experience</h2>
+      <div class="jobs">
+        @for (job of experience; track job.role + job.period) {
+          <article class="job">
+            <div class="job-head">
+              <h3>{{ job.role }}</h3>
+              <span class="period">{{ job.period }}</span>
+            </div>
+            <p class="company">{{ job.company }}</p>
+            <ul class="ps-3">
+              @for (p of job.points; track p) { <li class="mb-1">{{ p }}</li> }
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              @for (t of job.tags; track t) { <span class="badge rounded-pill chip">{{ t }}</span> }
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="education" class="block">
+      <h2>Education</h2>
+      <div class="row g-3">
+        @for (e of education; track e.title) {
+          <div class="col-md-6">
+            <div class="card h-100 skill">
+              <div class="card-body">
+                <p class="period mb-1">{{ e.period }}</p>
+                <h3 class="plain">{{ e.title }}</h3>
+                <p class="mb-0">{{ e.school }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section id="certifications" class="block">
+      <h2>Certifications</h2>
+      <div class="row g-4">
+        @for (g of certGroups; track g.title) {
+          <div class="col-xl-6">
+            <h3 class="cert-title">{{ g.title }}</h3>
+            <ul class="list-group list-group-flush">
+              @for (c of g.items; track c.name) {
+                <li class="list-group-item bg-transparent px-0 d-flex justify-content-between flex-wrap gap-2">
+                  <div>
+                    <strong>{{ c.name }}</strong>
+                    @if (c.issuer) { <div class="text-body-secondary small">{{ c.issuer }}</div> }
+                    @if (c.id) { <div class="text-body-secondary small font-monospace">Credential ID: {{ c.id }}</div> }
+                  </div>
+                  @if (c.status === 'in-progress') {
+                    <span class="badge text-bg-warning align-self-start">In progress</span>
+                  } @else if (c.date) {
+                    <span class="text-body-secondary small">{{ c.date }}</span>
+                  }
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section id="contact" class="block">
+      <h2>Contact</h2>
+      <p class="prose">Open to front-end and software test automation roles. Email is the quickest way to reach me.</p>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <a class="btn btn-brand" [href]="'mailto:' + profile.email"><i class="bi bi-envelope me-2"></i>{{ profile.email }}</a>
+        <a class="btn btn-outline-brand" [href]="'tel:' + profile.phone.replaceAll(' ', '')"><i class="bi bi-telephone me-2"></i>{{ profile.phone }}</a>
+        @if (profile.linkedin) {
+          <a class="btn btn-outline-brand" [href]="profile.linkedin" target="_blank" rel="noreferrer"><i class="bi bi-linkedin me-2"></i>LinkedIn</a>
+        }
+        @if (profile.github) {
+          <a class="btn btn-outline-brand" [href]="profile.github" target="_blank" rel="noreferrer"><i class="bi bi-github me-2"></i>GitHub</a>
+        }
+        @if (profile.resumeUrl) {
+          <a class="btn btn-outline-brand" [href]="profile.resumeUrl" download><i class="bi bi-download me-2"></i>Resume</a>
+        }
+      </div>
+      <p class="text-body-secondary mb-0"><i class="bi bi-geo-alt me-2"></i>{{ profile.location }}</p>
+    </section>
+
+    <footer>© {{ year }} {{ profile.name }}</footer>
+  </main>
+</div>

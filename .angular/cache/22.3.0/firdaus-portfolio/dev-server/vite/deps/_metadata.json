@@ -1,0 +1,26 @@
+{
+  "hash": "c36a5465",
+  "configHash": "6f5a75db",
+  "lockfileHash": "fb4b3a73",
+  "browserHash": "8cc1e851",
+  "optimized": {
+    "@angular/core": {
+      "src": "../../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "71c8926b",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "c84b9376",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "core-CAMcIxur": {
+      "file": "core-CAMcIxur.js",
+      "isDynamicEntry": false
+    }
+  }
+}
